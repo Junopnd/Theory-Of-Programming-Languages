@@ -4,51 +4,42 @@ import java.util.*;
 
 public class Tokenizer {
 
-	public static void main(String[] args) 
-	{
-		String sourceLanguage;  
-		int n = 5;
-		
-		Scanner sc = new Scanner(System.in);  
-		System.out.print("Enter Source Language: ");   
-		sourceLanguage = sc.nextLine();
-		
-		System.out.println("Output is: ");
-		
-		int[] array = new int[10];  
-		System.out.println("Enter the elements of the array: ");  
-		for(int i=0; i<n; i++)  
-		{    
-			array[i]=sc.nextInt();  
-		}  
-		
-		System.out.println("Array elements are: ");   
-		for (int i=0; i<n; i++)   
-		{  
-			System.out.print(array[i] + " ");  
-		}  	
-		
-	}
-	
-	public static void dataType()
-	{
+	public static void main(String args[]) {
+        
+    	Scanner in = new Scanner(System.in);  
+        String myDelim = ";";
+        
+        System.out.println("Enter Source Language: ");
+        String sourceLanguage = in.nextLine();
 
-	}
-	public static void assignOperator()
-	{
-		
-	}
-	public static void delimiter()
-	{
-		
-	}
-	public static void value()
-	{
-		
-	}
-	public static void identifier()
-	{
-		
-	}
+        StringTokenizer tokenizer = new StringTokenizer(sourceLanguage);
 
+        int count = tokenizer.countTokens();
+        for (int i = 0; i < count; i++)
+        {
+        	switch(i) 
+        	{
+        	case 0:
+        		System.out.print("<data_type> ");
+        		break;
+        	case 1:
+        		System.out.print("<identifier> ");
+        		break;
+        	case 2:
+        		System.out.print("<assignment_operator> ");
+        		break;
+        	case 3:
+        		System.out.print("<value> ");
+        		break;
+        	case 4:
+        		System.out.print("<delimiter> ");
+        		break;
+        	}
+        }
+        
+        while (tokenizer.hasMoreTokens())
+        {
+        	
+        }
+    }
 }

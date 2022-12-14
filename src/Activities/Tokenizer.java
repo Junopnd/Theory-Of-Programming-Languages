@@ -4,42 +4,73 @@ import java.util.*;
 
 public class Tokenizer {
 
-	public static void main(String args[]) {
-        
-    	Scanner in = new Scanner(System.in);  
-        String myDelim = ";";
-        
-        System.out.println("Enter Source Language: ");
-        String sourceLanguage = in.nextLine();
+	// data types
+    private static final String INTEGER = "int";
+    private static final String DOUBLE = "double";
+    private static final String CHAR = "char";
+    private static final String STRING = "String";
 
-        StringTokenizer tokenizer = new StringTokenizer(sourceLanguage);
+    // operator
+    private static final String ASSIGNMENT_OPERATOR = "=";
 
-        int count = tokenizer.countTokens();
-        for (int i = 0; i < count; i++)
-        {
-        	switch(i) 
-        	{
-        	case 0:
-        		System.out.print("<data_type> ");
-        		break;
-        	case 1:
-        		System.out.print("<identifier> ");
-        		break;
-        	case 2:
-        		System.out.print("<assignment_operator> ");
-        		break;
-        	case 3:
-        		System.out.print("<value> ");
-        		break;
-        	case 4:
-        		System.out.print("<delimiter> ");
-        		break;
-        	}
+    // delimiter
+    private static final String DELIMITER = ";";
+
+    private static StringBuilder builder;
+
+    private static final int VALUE_POS = 3;
+
+    public static void main(String[] args) {
+        builder = new StringBuilder();
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter Source Language: ");
+        String myString = scanner.nextLine();
+        StringTokenizer tokenizer = new StringTokenizer(myString);
+        int index = 0;
+
+        while(tokenizer.hasMoreTokens()) {
+            String token = tokenizer.nextToken(" ");
+            identifyTokenType(token, myString.contains(ASSIGNMENT_OPERATOR), index++);
         }
+
+        //<data_type><identifier><assignment_operator><value><delimiter>
+        String syntax = builder.toString();
+        System.out.println(syntax);
+
         
-        while (tokenizer.hasMoreTokens())
-        {
-        	
+    }
+
+    private static void identifyTokenType(String token, boolean hasAssignmentOperator, int index) {
+
+        if(token.equals(INTEGER) || token.equals(DOUBLE) || token.equals(CHAR) || token.equals(STRING)) {
+            builder.append("<data_type>");
+
+        } else if (token.equals(ASSIGNMENT_OPERATOR)) {
+            builder.append("<assignment_operator>");
+
+        } else if (token.contains(DELIMITER) && hasAssignmentOperator) {
+
+            if(token.startsWith(DELIMITER)) {
+                builder.append("<delimiter><value>");
+            } else {
+                builder.append("<value><delimiter>");
+            }
+
+        } else if (token.contains(DELIMITER) && !hasAssignmentOperator) {
+
+            if(token.startsWith(DELIMITER)) {
+                builder.append("<delimiter><identifier>");
+            } else {
+                builder.append("<identifier><delimiter>");
+            }
+
+        } else if(!token.contains(DELIMITER) && hasAssignmentOperator && index == VALUE_POS) {
+            builder.append("<value>");
+
+        } else {
+            builder.append("<identifier>");
         }
+
     }
 }
+// Done~
